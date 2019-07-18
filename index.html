@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="字幕 图片 为你的图片添加字幕 电影效果">
     <title>>_ ZIMU</title>
 
     <!-- Bootstrap -->
@@ -74,8 +74,10 @@
                         <div class="form-group">
                             <label for="l2">翻译语言</label>
                             <select name="tl" class="form-control" id="l2" required>
-                                <option value="ja">日语</option>
-                                <option value="en">英语</option>
+                                    <option value="ja">日语</option>
+                                    <option value="en">英语</option>
+                                    <option value="zh-TW">繁体中文</option>
+                                    <option value="fr">法语</option>                            
                             </select>
                         </div>
                         <input type="hidden" id="tk" name="tk">
@@ -103,12 +105,6 @@
         var tk = token(q);
         $('#tk').val(tk)
     });
-
-    /*var q = "哪来的狗";
-    var tk = token(q);
-    var tl = "ja";
-    var transUrl = "https://translate.google.cn/translate_a/single?client=webapp&sl=zh-CN&tl=" + tl + "&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&clearbtn=1&otf=1&ssel=0&tsel=0&kc=2&tk=" + tk + "&q=" + encodeURI(q);
-    console.log(transUrl);*/
 </script>
 </body>
 </html>

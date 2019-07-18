@@ -6,16 +6,14 @@ if ($_POST) {
     $text = $_POST['text'];
     $tl   = $_POST["tl"];
     $tk   = $_POST["tk"];
-
     // 接收图片
-    $allowedExts = array("gif", "jpeg", "jpg", "png");
+    $allowedExts = array("jpeg", "jpg", "png");
     $temp        = explode(".", $_FILES["file"]["name"]);
     $extension   = end($temp); // 文件后缀
-    if ((($_FILES["file"]["type"] == "image/gif")
-            || ($_FILES["file"]["type"] == "image/jpeg")
+    if ((($_FILES["file"]["type"] == "image/jpeg")
             || ($_FILES["file"]["type"] == "image/jpg")
             || ($_FILES["file"]["type"] == "image/png"))
-        && ($_FILES["file"]["size"] < 204800)    // 小于 200 kb
+        && ($_FILES["file"]["size"] < 20971520)    // 小于 20M
         && in_array($extension, $allowedExts)) {
         if ($_FILES["file"]["error"] > 0) {
             echo "错误：: " . $_FILES["file"]["error"] . "<br>";
@@ -26,7 +24,6 @@ if ($_POST) {
     } else {
         echo "非法的文件格式";
     }
-
     if ($_FILES["file"]["type"] == "image/png") {
         $imgObj = imagecreatefrompng($path);
     } elseif (($_FILES["file"]["type"] == "image/jpg") || ($_FILES["file"]["type"] == "image/jpeg")) {
@@ -36,11 +33,9 @@ if ($_POST) {
     unlink($path); // 删除保存的图片
     download('x.jpg', $imgObj, $text, $tl, $tk);
 }
-
 // 下载
 function download($fileName, $imgObj, $text, $tl, $tk)
 {
-
     ob_start();
     image($imgObj, $text, $tl, $tk);
     $s = ob_get_clean();
@@ -50,43 +45,34 @@ function download($fileName, $imgObj, $text, $tl, $tk)
     header('Content-Length: ' . strlen($s));
     echo $s;
 }
-
 // 合成图片
 function image($imgObj, $text, $tl, $tk)
 {
     // 获取图片宽高
     $imgWitch  = imagesx($imgObj);
     $imgHeight = imagesy($imgObj);
-
     // 创建背景
     $bg = imagecreatetruecolor($imgWitch, $imgHeight + 110);
     // 给定黑色
     $black = imagecolorallocate($bg, 0, 0, 0);
     imagefill($bg, 0, 0, $black);
-
     // 图片放入背景中
     imagecopy($bg, $imgObj, 0, 50, 0, 0, $imgWitch, $imgHeight);
-
     // 写入文字
-    $font     = dirname(__FILE__) . '\font\msyh.ttc';
+    // $font     = dirname(__FILE__) . '\font\msyh.ttc';
+    // linux时 
+    $font     = dirname(__FILE__) . '/font/msyh.ttc';
     $white    = imagecolorallocate($bg, 250, 250, 250);
     $fontSize = 15;
     $fontBox  = imagettfbbox($fontSize, 0, $font, $text);
     imagettftext($bg, 15, 0, ceil(($imgWitch - $fontBox[2]) / 2), $imgHeight + 75, $white, $font, $text);
-
     // 翻译字幕
     $text2     = api($text, $tl, $tk);
     $fontSize2 = 13;
     $fontBox2  = imagettfbbox($fontSize2, 0, $font, $text2);
     imagettftext($bg, 13, 0, ceil(($imgWitch - $fontBox2[2]) / 2), $imgHeight + 100, $white, $font, $text2);
-
-    header('content-type: image/png');
-    imagepng($bg);
-    exit;
-
     imagejpeg($bg);
 }
-
 function api($text, $tl, $tk)
 {
     // 翻译 通过接口获取
@@ -116,6 +102,6 @@ function api($text, $tl, $tk)
     curl_close($ch);
     $temp = '/\[\[\["([\s\S]*?)","/';
     preg_match($temp, $data, $mat);
-
     return $mat[1];
 }
+?>
