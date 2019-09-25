@@ -1,39 +1,3 @@
-
-const GOOGLE_URL =  "https://translate.google.cn/translate_a/single";
-
-function google_trans(text, tl) {
-	var tk = token(text);
-
-	var url = GOOGLE_URL + "?client=webapp&sl=zh-CN&tl="
-	+ tl
-	+ "&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&clearbtn=1&otf=1&ssel=0&tsel=0&kc=2&tk="
-	+ tk
-	+ "&q="
-	+ text;
-
-	var re = new XMLHttpRequest();
-	re.open('GET',url);
-	re.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-	re.setRequestHeader('Host','translate.google.cn');
-	re.setRequestHeader('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
-	re.setRequestHeader('Accept','*/*');
-	re.setRequestHeader('Accept-Language','zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2');
-	re.setRequestHeader('Accept-Encoding','gzip, deflate, br');
-	re.setRequestHeader('Connection','keep-alive');
-	re.setRequestHeader('Referer','https://translate.google.cn/');
-	re.setRequestHeader('Access-Control-Allow-Origin', '*');
-	re.setRequestHeader('Cookie','NID=188=WWhZ-A3AZa6Y97OKUCR5CLAR5RDw8BZUJtcHxWpAG7xY4Ng7uWRzZ-ZOUSpD9U75rOFoN8eF8Uco5DBZjjYgAodrVYNgOnrL6MCMP6lq5SAYkMaZjKtHX8pfwRG-wYnaxBO7RtqUBTtf9acE_48PxVLdA_nRJLG7Jky8N7srlTw; _ga=GA1.3.1399173103.1563412742; _gid=GA1.3.766588131.1563412742; 1P_JAR=2019-7-18-6');
-	re.setRequestHeader('Pragma','no-cache');
-	re.setRequestHeader('Cache-Control','no-cache');
-	re.setRequestHeader('TE','Trailers');
-	re.onreadystatechange = function(){
-		if(re.readyState === 4 && re.status === 200){
-			alert(re.responseText);
-		}
-	};
-	re.send(null);
-}
-
 function token(a) {
 	var k = "";
 	var b = 406644;
